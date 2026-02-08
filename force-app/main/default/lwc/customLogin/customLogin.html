@@ -1,0 +1,72 @@
+<template>
+    <div class="page-container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <img src={logoSrc} alt="FundPanel Logo" class="header-logo" />
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Video Background -->
+            <video class="bg-video" autoplay loop muted playsinline src={bgVideoSrc}></video>
+
+            <!-- Login Card -->
+            <div class="login-card">
+                <h1 class="login-title">Login</h1>
+
+                <div class="form-wrapper">
+                    <div class="form-group">
+                        <label class="form-label" for="username">Email</label>
+                        <input type="email" id="username" class="custom-input" placeholder="Enter Email"
+                            data-id="username" onchange={handleUsernameChange} onkeyup={handleEnterKey} />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="custom-input" placeholder="************"
+                            data-id="password" onchange={handlePasswordChange} onkeyup={handleEnterKey} />
+                    </div>
+
+                    <button class="submit-btn" onclick={handleLogin}>
+                        Sign In
+                        <!-- Simple Arrow Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+
+                    <template if:true={errorMessage}>
+                        <p class="error-message">{errorMessage}</p>
+                    </template>
+
+                    <div class="links-container">
+                        <a href="javascript:void(0);" onclick={handleForgotPassword} class="link-item link-forgot">
+                            <!-- Lock Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            Forgot Password
+                        </a>
+                        <a href="javascript:void(0);" class="link-item link-create">
+                            Create Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="copyright">© 2024 FundPanel. All rights reserved.</p>
+        </footer>
+
+    </div>
+</template>
