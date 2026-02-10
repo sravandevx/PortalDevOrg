@@ -1,0 +1,81 @@
+Custom User Fields (on User object)
+Field API Name	Type	Purpose
+LP_Email_Verification_Enabled__c	Checkbox	Tracks if user chose email verification
+LP_SMS_Verification_Enabled__c	Checkbox	Tracks if user chose SMS verification
+LP_Authenticator_Verification_Enabled__c	Checkbox	Tracks if user chose authenticator app
+
+Apex Classes
+Class	                                        Purpose
+LP_CheckVerificationStatus	@InvocableMethod - checks if user has any verification method enabled
+LP_SetVerificationMethod	@InvocableMethod - sets the selected method on User record
+LP_UserVerificationHandler	Trigger handler  - assigns/removes permission sets via Queueable
+
+Apex Trigger
+Trigger	                    Purpose
+UserVerificationTrigger	    Fires on User after insert/update, calls LP_UserVerificationHandler
+
+Permission Sets                     Permission Set	Purpose
+LP_Email_Verification_Required	    Assigned when user selects Email
+LP_SMS_Verification_Required	    Assigned when user selects SMS
+LP_MFA_Authenticator_Required	    Assigned when user selects Authenticator
+
+Flow
+Flow	Status	Purpose
+LP_Portal_Verification_Setup_Flow	Draft	Screen Flow - prompts users to select verification method at login
+Flow Logic:
+
+
+Login → Check Verification Status (Apex)
+  → Decision: needsSetup?
+    YES → Screen: Select Method (Authenticator/Email/SMS radio buttons)
+        → Set Verification Method (Apex - updates User fields)
+        → Screen: "Setup Complete" confirmation
+        → End
+    NO  → End (user goes straight to portal)
+    ERROR → Error Screen → End
+
+
+Manual Steps to Complete
+Step 1: Activate the Flow
+    Go to Setup → search "Flows"
+    Find "LP Portal Verification Setup Flow"
+    Click on it to open
+    Click Activate
+Step 2: Enable Identity Verification Settings
+    Go to Setup → search "Identity Verification"
+    Enable:
+    Multi-factor authentication
+    Allow authenticator apps (TOTP)
+    Allow SMS verification
+    Allow email verification
+    Click Save
+Step 3: Configure Session Settings
+    Go to Setup → search "Session Settings"
+    Enable:
+    Identity Confirmation
+    Allow users to self-register verification methods
+    Leave "Require Two-Factor Authentication for All User Logins" UNCHECKED
+    Click Save
+Step 4: Add System Permissions to Permission Sets
+    After Step 2 is done, the MFA permissions become available:
+
+    Setup → Permission Sets → LP MFA Authenticator Required
+
+    Click System Permissions → Edit
+    Enable: Multi-Factor Authentication for User Interface Logins
+    Save
+    For LP Email Verification Required and LP SMS Verification Required - these serve as markers. Email/SMS verification enforcement is controlled at the org level through Identity Verification settings (Step 2).
+
+Step 5: Assign Login Flow to LP Portal
+    Setup → search "Digital Experiences" → All Sites
+    Find LP Portal → click Builder dropdown → Administration
+    In left sidebar → Login & Registration
+    Under Login Flow → select "LP Portal Verification Setup Flow"
+    Click Save
+Step 6: Test
+    Log in as a portal user who has none of the 3 verification fields checked
+    The flow should appear, prompting to select a method
+    After selection, verify:
+    The chosen field is set to true on the User record
+    The corresponding permission set is assigned (check Setup → Users → Permission Set Assignments)
+    Log in again - flow should skip straight through since a method is already selected
