@@ -1,0 +1,31 @@
+<template>
+    <div class="fp-card chart-container">
+        <div class="chart-header">
+            <h3 class="chart-title">Performance Over Time</h3>
+        </div>
+
+        <div class="chart-content">
+            <!-- Chart.js Canvas -->
+            <div class="line-chart-wrapper">
+                <canvas class="line-chart-canvas" lwc:ref="lineCanvas"></canvas>
+            </div>
+
+            <!-- Legend -->
+            <div class="chart-legend">
+                <template for:each={legendItems} for:item="item">
+                    <div key={item.series} class="legend-item">
+                        <div class="legend-color" style={item.colorStyle}></div>
+                        <span class="legend-label">{item.label}</span>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <template lwc:if={hasError}>
+            <div class="chart-error">
+                <p>Unable to load chart. Please refresh the page.</p>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LP_SMS_Verification_Code__c</fullName>
+    <label>LP SMS Verification Code</label>
+    <description>Temporary SMS verification code for phone number verification. Auto-cleared after successful verification.</description>
+    <type>Text</type>
+    <length>6</length>
+    <externalId>false</externalId>
+    <unique>false</unique>
+</CustomField>

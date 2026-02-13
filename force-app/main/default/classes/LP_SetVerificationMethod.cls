@@ -26,10 +26,13 @@ public class LP_SetVerificationMethod {
         // Set the selected verification method
         if (request.selectedMethod == 'Email') {
             userToUpdate.LP_Email_Verification_Enabled__c = true;
+            userToUpdate.LP_MFA_Enabled__c = true;
         } else if (request.selectedMethod == 'SMS') {
             userToUpdate.LP_SMS_Verification_Enabled__c = true;
+            userToUpdate.LP_SMS_Enabled__c = true;
         } else if (request.selectedMethod == 'Authenticator') {
             userToUpdate.LP_Authenticator_Verification_Enabled__c = true;
+            userToUpdate.LP_MFA_Enabled__c = true;
         }
 
         try {

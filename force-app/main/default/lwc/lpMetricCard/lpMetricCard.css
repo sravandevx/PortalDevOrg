@@ -1,0 +1,135 @@
+/**
+ * lpMetricCard Styles
+ * Material Design 3 metric card styling - Figma Specifications
+ */
+
+/* Design Tokens */
+:host {
+    /* Colors */
+    --metric-card-bg: #FFFFFF;
+    --metric-card-selected-bg: #E9652B;
+    --metric-text-color: #000000;
+
+    /* Elevation - M3 Elevation Light 3 */
+    --metric-card-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15),
+                          0 1px 3px 0 rgba(0, 0, 0, 0.30);
+
+    /* Motion */
+    --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+    --md-sys-motion-duration-short-4: 200ms;
+}
+
+/* Metric Card Container */
+.fp-card {
+    display: flex;
+    min-height: 80px;
+    align-items: center;
+    gap: 16px;
+    flex: 1 0 0;
+
+    /* Styling */
+    border-radius: 8px;
+    background-color: var(--metric-card-bg);
+    box-shadow: var(--metric-card-shadow);
+    box-sizing: border-box;
+    padding: 16px 24px;
+    padding-left: 32px;
+
+    /* Position context for accent bar */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Left Accent Bar - Primary Color */
+.fp-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 9px;
+    height: 100%;
+    background: var(--Brand-Primary, #E9652B);
+    border-radius: 8px 0 0 8px;
+}
+
+.metric-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    transition: transform var(--md-sys-motion-duration-short-4) var(--md-sys-motion-easing-standard);
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Selection / Active State */
+.fp-card.selected,
+.fp-card:focus {
+    background-color: var(--metric-card-selected-bg);
+}
+
+.fp-card.selected .metric-value,
+.fp-card.selected .metric-label,
+.fp-card:focus .metric-value,
+.fp-card:focus .metric-label {
+    color: var(--metric-text-color);
+}
+
+/* Metric Content */
+.metric-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Metric Value (Primary Text) */
+.metric-value {
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: var(--metric-text-color);
+    transition: color var(--md-sys-motion-duration-short-4) var(--md-sys-motion-easing-standard);
+}
+
+/* Metric Label (Secondary Text) */
+.metric-label {
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 16px;
+    letter-spacing: 0.4px;
+    color: var(--metric-text-color);
+}
+
+/* Metric Change Indicator */
+.metric-change {
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.metric-change.positive {
+    color: #2E7D32;
+}
+
+.metric-change.negative {
+    color: #C62828;
+}
+
+/* Responsive - Maintain 80px height */
+@media (max-width: 767px) {
+    .fp-card {
+        min-height: 80px;
+        padding: 12px 16px;
+    }
+}

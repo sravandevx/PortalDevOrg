@@ -1,0 +1,44 @@
+<template>
+    <div class="fp-card chart-container">
+        <div class="chart-header">
+            <h3 class="chart-title">Commitments</h3>
+        </div>
+
+        <div class="chart-content">
+            <!-- Chart.js Canvas -->
+            <div class="donut-chart-wrapper">
+                <canvas class="donut-chart-canvas" lwc:ref="donutCanvas"></canvas>
+            </div>
+
+            <!-- Legend / Fund List -->
+            <div class="chart-legend">
+                <template for:each={legendItems} for:item="item">
+                    <div
+                        key={item.fundId}
+                        class="legend-item"
+                        data-fund-id={item.fundId}
+                        onmouseenter={handleLegendHover}
+                        onmouseleave={handleLegendLeave}
+                        onclick={handleLegendClick}
+                    >
+                        <div class="legend-color" style={item.colorStyle}></div>
+                        <div class="legend-content">
+                            <div class="legend-name">{item.fundName}</div>
+                            <div class="legend-value">
+                                <span class="legend-amount">{item.amount}</span>
+                                <span class="legend-percentage">{item.percentage}</span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <template lwc:if={hasError}>
+            <div class="chart-error">
+                <p>Unable to load chart. Please refresh the page.</p>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,17 @@
+<template>
+    <div class="fp-card metric-card" role="article" aria-labelledby={labelId}>
+        <div class="metric-content">
+            <div class="metric-label" id={labelId}>
+                {label}
+            </div>
+            <div class="metric-value" aria-label={valueAriaLabel}>
+                {displayValue}
+            </div>
+            <template lwc:if={showChange}>
+                <div class={changeClass} aria-label={changeAriaLabel}>
+                    {changeText}
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

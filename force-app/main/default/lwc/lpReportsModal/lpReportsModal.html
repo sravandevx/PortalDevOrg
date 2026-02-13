@@ -1,0 +1,79 @@
+<template>
+    <template lwc:if={isOpen}>
+        <!-- Scrim/Backdrop -->
+        <div class="fp-scrim" onclick={handleBackdropClick}></div>
+
+        <!-- Modal Container -->
+        <section
+            role="dialog"
+            aria-labelledby="modal-title"
+            aria-modal="true"
+            class="modal-container"
+        >
+            <div class="modal-content">
+                <!-- Header -->
+                <header class="modal-header">
+                    <h2 id="modal-title" class="modal-title">
+                        Portfolio Metrics Report
+                    </h2>
+                    <button
+                        class="close-button fp-touch-target"
+                        onclick={handleClose}
+                        aria-label="Close modal"
+                        title="Close"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                </header>
+
+                <!-- Body with Table -->
+                <div class="modal-body">
+                    <p class="modal-description">
+                        Detailed view of your portfolio metrics in tabular format.
+                        This table is suitable for screenshots and record-keeping.
+                    </p>
+
+                    <!-- Metrics Table -->
+                    <table class="metrics-table" role="table" aria-label="Portfolio metrics data table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table-header">Metric</th>
+                                <th scope="col" class="table-header table-value-column">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={metricsData} for:item="metric">
+                                <tr key={metric.key} class="table-row">
+                                    <td class="table-cell metric-name">{metric.name}</td>
+                                    <td class="table-cell metric-value">{metric.value}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <!-- Filter Status (if filters are active) -->
+                    <template lwc:if={hasActiveFilters}>
+                        <div class="filter-status">
+                            <span class="filter-status-icon">ℹ️</span>
+                            <span class="filter-status-text">
+                                Showing filtered data: {filterDescription}
+                            </span>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Footer -->
+                <footer class="modal-footer">
+                    <button
+                        class="close-footer-btn fp-touch-target"
+                        onclick={handleClose}
+                    >
+                        Close
+                    </button>
+                </footer>
+            </div>
+        </section>
+    </template>
+</template>

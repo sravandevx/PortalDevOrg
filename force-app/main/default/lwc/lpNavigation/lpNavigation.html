@@ -1,0 +1,117 @@
+<template>
+    <div class={portalContainerClass}>
+        <!-- Left Sidebar Navigation -->
+        <aside class={sidebarClass}>
+            <!-- Logo/Brand -->
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-logo">
+                        <img src={logoUrl} alt="FundPanel Logo">
+                    </div>
+                    <span class="brand-text">
+                        <span class="brand-text-fund">FUND</span>PANEL
+                    </span>
+                </div>
+            </div>
+
+            <!-- Main Navigation -->
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <template for:each={activeMenuItems} for:item="item">
+                        <li key={item.id} class={item.class} data-view-id={item.id} onclick={handleNavItemClick}>
+                            <span class="nav-icon">
+                                <img src={item.iconUrl} alt={item.label}>
+                            </span>
+                            <span class="nav-label">{item.label}</span>
+                        </li>
+                    </template>
+                </ul>
+
+                <!-- Help Section -->
+                <div class="nav-divider"></div>
+                <div class="nav-section-label">Help</div>
+                <ul class="nav-list">
+                    <template for:each={activeHelpItems} for:item="item">
+                        <li key={item.id} class={item.class} data-view-id={item.id} onclick={handleNavItemClick}>
+                            <span class="nav-icon">
+                                <img src={item.iconUrl} alt={item.label}>
+                            </span>
+                            <span class="nav-label">{item.label}</span>
+                        </li>
+                    </template>
+                </ul>
+            </nav>
+
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <!-- Profile Dropdown -->
+                <div class={profileDropdownClass}>
+                    <div class="dropdown-item" data-action="account" onclick={handleProfileAction}>
+                        <span class="dropdown-icon">
+                            <img src={accountIconUrl} alt="Account">
+                        </span>
+                        <span class="dropdown-label">Account</span>
+                    </div>
+                    <div class="dropdown-item" data-action="password" onclick={handleProfileAction}>
+                        <span class="dropdown-icon">
+                            <img src={passwordIconUrl} alt="Change Password">
+                        </span>
+                        <span class="dropdown-label">Change Password</span>
+                    </div>
+                    <div class="dropdown-item" data-action="mfa" onclick={handleProfileAction}>
+                        <span class="dropdown-icon">
+                            <img src={mfaIconUrl} alt="Setup SMS MFA">
+                        </span>
+                        <span class="dropdown-label">Setup SMS MFA</span>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="logout" onclick={handleProfileAction}>
+                        <span class="dropdown-icon">
+                            <img src={logoutIconUrl} alt="Log out">
+                        </span>
+                        <span class="dropdown-label">Log out</span>
+                    </div>
+                </div>
+
+                <!-- Profile Trigger -->
+                <div class="profile-trigger" onclick={handleProfileClick}>
+                    <div class="profile-avatar">{userInitial}</div>
+                    <div class="profile-info">
+                        <div class="profile-name">{userName}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer with Collapse Toggle -->
+            <div class="sidebar-footer">
+                <div class="footer-text">
+                    <span class="footer-logo">A</span>
+                    Powered by <strong>ADURO ADVISORS</strong>
+                </div>
+                <button class="collapse-toggle" onclick={handleCollapseToggle} title={collapseToggleTitle}>
+                    <img src={collapseIconUrl} alt="Toggle sidebar">
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Overview Dashboard -->
+            <template lwc:if={isOverviewView}>
+                <c-lp-portal-dashboard></c-lp-portal-dashboard>
+            </template>
+
+            <!-- In Progress Pages -->
+            <template lwc:if={isInProgressView}>
+                <div class="in-progress-container">
+                    <div class="in-progress-card">
+                        <div class="in-progress-icon">🚧</div>
+                        <h2 class="in-progress-title">{currentViewLabel}</h2>
+                        <p class="in-progress-message">This page is currently under development.</p>
+                        <p class="in-progress-submessage">Please check back later for updates.</p>
+                    </div>
+                </div>
+            </template>
+        </main>
+    </div>
+</template>

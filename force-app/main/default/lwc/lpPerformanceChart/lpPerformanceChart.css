@@ -1,0 +1,150 @@
+/**
+ * lpPerformanceChart Styles
+ * Chart.js line chart styling - Figma Specifications
+ */
+
+/* Material Design 3 Design Tokens - Inlined */
+:host {
+    --md-sys-color-surface: #FAFAFA;
+    --md-sys-color-on-surface: #1A1C1E;
+    --md-sys-color-on-surface-variant: #3F4946;
+    --md-sys-color-surface-variant: #DAE5E1;
+    --md-sys-elevation-1: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-3: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    --md-sys-spacing-1: 4px;
+    --md-sys-spacing-2: 8px;
+    --md-sys-spacing-3: 12px;
+    --md-sys-spacing-4: 16px;
+    --md-sys-spacing-6: 24px;
+    --md-sys-shape-corner-small: 8px;
+    --md-sys-shape-corner-medium: 12px;
+    --md-sys-shape-corner-full: 9999px;
+    --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+    --md-sys-motion-duration-short-4: 200ms;
+    --md-sys-typescale-title-large-font-size: 22px;
+    --md-sys-typescale-title-large-line-height: 28px;
+    --md-sys-typescale-title-large-font-weight: 400;
+    --md-sys-typescale-title-medium-font-size: 16px;
+    --md-sys-typescale-body-medium-font-size: 14px;
+    --md-sys-typescale-body-medium-line-height: 20px;
+    --md-sys-typescale-body-small-font-size: 12px;
+}
+
+/* Card styling - Figma Specifications */
+.fp-card {
+    /* Layout */
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 17px;
+    align-self: stretch;
+
+    /* Style */
+    border-radius: 16px;
+    background: #FFF;
+    box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15),
+                0 1px 3px 0 rgba(0, 0, 0, 0.30);
+}
+
+.chart-container {
+    min-height: 350px;
+    width: 100%;
+    max-width: 1048px;
+    box-sizing: border-box;
+}
+
+.chart-header {
+    margin-bottom: 0;
+}
+
+.chart-title {
+    font-size: var(--md-sys-typescale-title-large-font-size);
+    line-height: var(--md-sys-typescale-title-large-line-height);
+    font-weight: var(--md-sys-typescale-title-large-font-weight);
+    color: var(--md-sys-color-on-surface);
+    margin: 0;
+}
+
+.chart-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--md-sys-spacing-4);
+    flex: 1;
+    width: 100%;
+}
+
+/* Line Chart Canvas Wrapper */
+.line-chart-wrapper {
+    flex: 1;
+    width: 100%;
+    min-height: 250px;
+    position: relative;
+}
+
+.line-chart-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Legend */
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--md-sys-spacing-4);
+    padding-top: var(--md-sys-spacing-4);
+    border-top: 1px solid var(--md-sys-color-surface-variant);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--md-sys-spacing-2);
+}
+
+.legend-color {
+    width: 20px;
+    height: 3px;
+    border-radius: var(--md-sys-shape-corner-full);
+}
+
+.legend-label {
+    font-size: var(--md-sys-typescale-body-medium-font-size);
+    line-height: var(--md-sys-typescale-body-medium-line-height);
+    color: var(--md-sys-color-on-surface);
+    font-weight: 500;
+}
+
+/* Error state */
+.chart-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--md-sys-spacing-6);
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: var(--md-sys-typescale-body-medium-font-size);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .line-chart-wrapper {
+        min-height: 200px;
+    }
+}
+
+@media (min-width: 768px) {
+    .chart-content {
+        gap: var(--md-sys-spacing-6);
+    }
+
+    .line-chart-wrapper {
+        min-height: 280px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .line-chart-wrapper {
+        min-height: 300px;
+    }
+}

@@ -1,5 +1,6 @@
 /**
  * Controller for Login Flow - checks if user needs to set up verification
+ * Uses LP_MFA_Enabled__c and LP_SMS_Enabled__c to determine if setup is needed
  */
 public class LP_CheckVerificationStatus {
 
@@ -15,22 +16,16 @@ public class LP_CheckVerificationStatus {
             return results;
         }
 
-        User currentUser = [SELECT Id,
-                                   LP_Email_Verification_Enabled__c,
-                                   LP_SMS_Verification_Enabled__c,
-                                   LP_Authenticator_Verification_Enabled__c
+        User currentUser = [SELECT Id, LP_MFA_Enabled__c, LP_SMS_Enabled__c
                             FROM User
                             WHERE Id = :userIds[0]
                             LIMIT 1];
 
         VerificationStatus status = new VerificationStatus();
         status.userId = currentUser.Id;
-        status.needsSetup = !currentUser.LP_Email_Verification_Enabled__c &&
-                            !currentUser.LP_SMS_Verification_Enabled__c &&
-                            !currentUser.LP_Authenticator_Verification_Enabled__c;
-        status.hasEmailVerification = currentUser.LP_Email_Verification_Enabled__c;
-        status.hasSmsVerification = currentUser.LP_SMS_Verification_Enabled__c;
-        status.hasAuthenticatorVerification = currentUser.LP_Authenticator_Verification_Enabled__c;
+        status.needsSetup = !currentUser.LP_MFA_Enabled__c && !currentUser.LP_SMS_Enabled__c;
+        status.hasMfaEnabled = currentUser.LP_MFA_Enabled__c;
+        status.hasSmsEnabled = currentUser.LP_SMS_Enabled__c;
 
         results.add(status);
         return results;
@@ -46,13 +41,10 @@ public class LP_CheckVerificationStatus {
         @InvocableVariable(label='Needs Setup' required=true)
         public Boolean needsSetup;
 
-        @InvocableVariable(label='Has Email Verification' required=true)
-        public Boolean hasEmailVerification;
+        @InvocableVariable(label='Has MFA Enabled' required=true)
+        public Boolean hasMfaEnabled;
 
-        @InvocableVariable(label='Has SMS Verification' required=true)
-        public Boolean hasSmsVerification;
-
-        @InvocableVariable(label='Has Authenticator Verification' required=true)
-        public Boolean hasAuthenticatorVerification;
+        @InvocableVariable(label='Has SMS Enabled' required=true)
+        public Boolean hasSmsEnabled;
     }
 }

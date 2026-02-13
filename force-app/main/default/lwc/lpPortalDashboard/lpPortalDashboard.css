@@ -1,0 +1,307 @@
+/**
+ * lpPortalDashboard Styles
+ * Material Design 3 dashboard layout with responsive grid
+ */
+
+/* Material Design 3 Design Tokens - Inlined */
+:host {
+    /* COLOR SYSTEM */
+    --md-sys-color-primary: #006B5F;
+    --md-sys-color-on-primary: #FFFFFF;
+    --md-sys-color-primary-container: #9FF2E2;
+    --md-sys-color-on-primary-container: #00201C;
+    --md-sys-color-secondary: #4A6360;
+    --md-sys-color-on-secondary: #FFFFFF;
+    --md-sys-color-secondary-container: #CCE8E3;
+    --md-sys-color-on-secondary-container: #05201D;
+    --md-sys-color-surface: #FAFAFA;
+    --md-sys-color-on-surface: #1A1C1E;
+    --md-sys-color-surface-variant: #DAE5E1;
+    --md-sys-color-on-surface-variant: #3F4946;
+    --md-sys-color-background: #FCFCFC;
+    --md-sys-color-on-background: #191C1B;
+    --md-sys-color-positive: #2E7D32;
+    --md-sys-color-on-positive: #FFFFFF;
+    --md-sys-color-warning: #F57F17;
+    --md-sys-color-on-warning: #FFFFFF;
+    --md-sys-color-error: #C62828;
+    --md-sys-color-on-error: #FFFFFF;
+    --md-sys-color-info: #1976D2;
+    --md-sys-color-on-info: #FFFFFF;
+    --md-fund-color-1: #1976D2;
+    --md-fund-color-2: #388E3C;
+    --md-fund-color-3: #F57C00;
+    --md-fund-color-4: #7B1FA2;
+    --md-fund-color-5: #C2185B;
+    --md-fund-color-6: #0097A7;
+
+    /* ELEVATION SYSTEM */
+    --md-sys-elevation-0: none;
+    --md-sys-elevation-1: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-2: 0px 1px 5px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-3: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-4: 0px 6px 10px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-5: 0px 8px 12px rgba(0, 0, 0, 0.3);
+
+    /* TYPOGRAPHY SCALE */
+    --md-sys-typescale-headline-large-font-size: 32px;
+    --md-sys-typescale-headline-large-line-height: 40px;
+    --md-sys-typescale-headline-large-font-weight: 400;
+    --md-sys-typescale-headline-medium-font-size: 28px;
+    --md-sys-typescale-headline-medium-line-height: 36px;
+    --md-sys-typescale-headline-medium-font-weight: 400;
+    --md-sys-typescale-title-large-font-size: 22px;
+    --md-sys-typescale-title-large-line-height: 28px;
+    --md-sys-typescale-title-large-font-weight: 400;
+    --md-sys-typescale-title-medium-font-size: 16px;
+    --md-sys-typescale-title-medium-line-height: 24px;
+    --md-sys-typescale-title-medium-font-weight: 500;
+    --md-sys-typescale-body-large-font-size: 16px;
+    --md-sys-typescale-body-large-line-height: 24px;
+    --md-sys-typescale-body-large-font-weight: 400;
+    --md-sys-typescale-body-medium-font-size: 14px;
+    --md-sys-typescale-body-medium-line-height: 20px;
+    --md-sys-typescale-body-medium-font-weight: 400;
+    --md-sys-typescale-label-large-font-size: 14px;
+    --md-sys-typescale-label-large-line-height: 20px;
+    --md-sys-typescale-label-large-font-weight: 600;
+
+    /* MOTION SYSTEM */
+    --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+    --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+    --md-sys-motion-duration-short-4: 200ms;
+    --md-sys-motion-duration-medium-2: 300ms;
+    --md-fp-motion-filter-update: 250ms;
+
+    /* SPACING SYSTEM */
+    --md-sys-spacing-0: 0px;
+    --md-sys-spacing-1: 4px;
+    --md-sys-spacing-2: 8px;
+    --md-sys-spacing-3: 12px;
+    --md-sys-spacing-4: 16px;
+    --md-sys-spacing-5: 20px;
+    --md-sys-spacing-6: 24px;
+    --md-sys-spacing-7: 28px;
+    --md-sys-spacing-8: 32px;
+
+    /* BORDER RADIUS */
+    --md-sys-shape-corner-small: 8px;
+    --md-sys-shape-corner-medium: 12px;
+
+    /* ACCESSIBILITY */
+    --md-sys-focus-ring-width: 3px;
+    --md-sys-focus-ring-offset: 2px;
+    --md-sys-focus-ring-color: var(--md-sys-color-primary);
+}
+
+/* Metric Card Group Container */
+.fp-metrics-grid {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    flex-wrap: wrap;
+    max-width: 1096px;
+}
+
+.dashboard-container {
+    /* Layout - Figma Specifications */
+    display: flex;
+    flex-direction: column;
+    height: 960px;
+    padding: 24px;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 1 0 0;
+
+    /* Style - Figma Specifications */
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(248, 248, 248, 0.90) 8%, rgba(245, 242, 240, 0.90) 30.29%);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--md-sys-spacing-6);
+    gap: var(--md-sys-spacing-4);
+    flex-wrap: wrap;
+}
+
+.dashboard-title {
+    font-size: var(--md-sys-typescale-headline-large-font-size);
+    line-height: var(--md-sys-typescale-headline-large-line-height);
+    font-weight: var(--md-sys-typescale-headline-large-font-weight);
+    color: var(--md-sys-color-on-background);
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: var(--md-sys-spacing-3);
+}
+
+.view-reports-btn {
+    padding: var(--md-sys-spacing-3) var(--md-sys-spacing-6);
+    border: none;
+    border-radius: var(--md-sys-shape-corner-small);
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    font-size: var(--md-sys-typescale-label-large-font-size);
+    font-weight: var(--md-sys-typescale-label-large-font-weight);
+    cursor: pointer;
+    transition: all var(--md-sys-motion-duration-short-4) var(--md-sys-motion-easing-standard);
+    box-shadow: var(--md-sys-elevation-0);
+}
+
+.view-reports-btn:hover {
+    background-color: var(--md-sys-color-on-surface);
+    color: var(--md-sys-color-surface);
+    box-shadow: var(--md-sys-elevation-2);
+    transform: translateY(-1px);
+}
+
+.view-reports-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--md-sys-elevation-1);
+}
+
+.view-reports-btn:focus-visible {
+    outline: var(--md-sys-focus-ring-width) solid var(--md-sys-focus-ring-color);
+    outline-offset: var(--md-sys-focus-ring-offset);
+}
+
+/* Charts Section - Stacked Layout (Commitments above, Performance below) */
+.charts-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--md-sys-spacing-6);
+    margin-top: var(--md-sys-spacing-6);
+    width: 100%;
+    max-width: 1048px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fade-in var(--md-sys-motion-duration-short-4) var(--md-sys-motion-easing-standard);
+}
+
+.loading-text {
+    margin-top: var(--md-sys-spacing-4);
+    color: var(--md-sys-color-surface);
+    font-size: var(--md-sys-typescale-body-large-font-size);
+    font-weight: 500;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Layout */
+
+/* Mobile: 320px - 767px */
+@media (max-width: 767px) {
+    .dashboard-container {
+        padding-top: var(--md-sys-spacing-4);
+        padding-bottom: var(--md-sys-spacing-4);
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-title {
+        font-size: var(--md-sys-typescale-headline-medium-font-size);
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .view-reports-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .charts-section {
+        gap: var(--md-sys-spacing-4);
+    }
+}
+
+/* Tablet: 768px - 1279px */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .charts-section {
+        gap: var(--md-sys-spacing-6);
+    }
+}
+
+/* Desktop: 1280px+ */
+@media (min-width: 1280px) {
+    .dashboard-container {
+        padding-top: var(--md-sys-spacing-8);
+        padding-bottom: var(--md-sys-spacing-8);
+    }
+
+    .charts-section {
+        gap: var(--md-sys-spacing-8);
+    }
+}
+
+/* Animation for content updates */
+c-lp-metric-card,
+c-lp-donut-chart,
+c-lp-performance-chart {
+    animation: content-fade-in var(--md-fp-motion-filter-update) var(--md-sys-motion-easing-emphasized);
+}
+
+@keyframes content-fade-in {
+    from {
+        opacity: 0.7;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Ensure smooth transitions on filter updates */
+.fp-metrics-grid,
+.charts-section {
+    transition: opacity var(--md-fp-motion-filter-update) var(--md-sys-motion-easing-emphasized);
+}
+
+/* Print styles for clean reports */
+@media print {
+    .dashboard-header,
+    c-lp-filter-bar {
+        display: none;
+    }
+
+    .dashboard-container {
+        padding: 0;
+    }
+
+    .view-reports-btn {
+        display: none;
+    }
+}

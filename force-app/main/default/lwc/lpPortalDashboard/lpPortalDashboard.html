@@ -1,0 +1,89 @@
+<template>
+    <div class="fp-container dashboard-container">
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">LP Portfolio Overview</h1>
+            <div class="header-actions">
+                <button
+                    class="view-reports-btn fp-touch-target"
+                    onclick={handleViewReportsClick}
+                    aria-label="View detailed reports in table format"
+                >
+                    View Reports
+                </button>
+            </div>
+        </header>
+
+        <!-- Filter Bar -->
+        <c-lp-filter-bar
+            onfilterchange={handleFilterChange}
+        ></c-lp-filter-bar>
+
+        <!-- Metric Cards Grid -->
+        <div class="fp-metrics-grid">
+            <!-- Total Commitments -->
+            <c-lp-metric-card
+                label="Total Commitments"
+                value={metrics.totalCommitments}
+                format-type="currency"
+            ></c-lp-metric-card>
+
+            <!-- Total Called -->
+            <c-lp-metric-card
+                label="Total Called"
+                value={metrics.totalCalled}
+                format-type="currency"
+            ></c-lp-metric-card>
+
+            <!-- Total Distributions -->
+            <c-lp-metric-card
+                label="Total Distributions"
+                value={metrics.totalDistributions}
+                format-type="currency"
+            ></c-lp-metric-card>
+
+            <!-- Estimated Value -->
+            <c-lp-metric-card
+                label="Estimated Value"
+                value={metrics.estimatedValue}
+                format-type="currency"
+            ></c-lp-metric-card>
+
+            <!-- Estimated TVPI -->
+            <c-lp-metric-card
+                label="Estimated TVPI"
+                value={metrics.estimatedTVPI}
+                format-type="tvpi"
+            ></c-lp-metric-card>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <!-- Commitments Donut Chart -->
+            <c-lp-donut-chart
+                allocation-data={allocationData}
+                total-value={metrics.totalCommitments}
+                onsegmentclick={handleFundClick}
+            ></c-lp-donut-chart>
+
+            <!-- Performance Over Time Chart -->
+            <c-lp-performance-chart
+                performance-data={performanceData}
+            ></c-lp-performance-chart>
+        </div>
+
+        <!-- Reports Modal -->
+        <c-lp-reports-modal
+            lwc:ref="reportsModal"
+            onclose={handleModalClose}
+        ></c-lp-reports-modal>
+
+        <!-- Loading Indicator -->
+        <template lwc:if={isLoading}>
+            <div class="loading-overlay">
+                <div class="fp-loading"></div>
+                <p class="loading-text">Updating portfolio data...</p>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,268 @@
+/**
+ * Shared Styles for FundPanel LP Portal
+ *
+ * Imports MD3 tokens and provides common utility classes and responsive layout styles
+ */
+
+@import './md3Tokens.css';
+
+/* ========================================
+ * RESPONSIVE BREAKPOINTS
+ * ======================================== */
+
+/* Mobile: 320px - 767px */
+/* Tablet: 768px - 1279px */
+/* Desktop: 1280px+ */
+
+/* ========================================
+ * COMMON LAYOUT UTILITIES
+ * ======================================== */
+
+.fp-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: var(--md-sys-spacing-4);
+}
+
+@media (min-width: 768px) {
+    .fp-container {
+        padding: var(--md-sys-spacing-6);
+    }
+}
+
+@media (min-width: 1280px) {
+    .fp-container {
+        padding: var(--md-sys-spacing-8);
+    }
+}
+
+/* ========================================
+ * CARD STYLES (Material Design 3)
+ * ======================================== */
+
+.fp-card {
+    background-color: var(--md-sys-color-surface);
+    border-radius: var(--md-sys-shape-corner-medium);
+    box-shadow: var(--md-sys-elevation-1);
+    padding: var(--md-sys-spacing-6);
+    transition: box-shadow var(--md-sys-motion-duration-short-4) var(--md-sys-motion-easing-standard);
+}
+
+.fp-card:hover {
+    box-shadow: var(--md-sys-elevation-2);
+}
+
+.fp-card-elevated {
+    box-shadow: var(--md-sys-elevation-2);
+}
+
+.fp-card-elevated:hover {
+    box-shadow: var(--md-sys-elevation-3);
+}
+
+/* ========================================
+ * TYPOGRAPHY UTILITIES
+ * ======================================== */
+
+.fp-text-display-large {
+    font-size: var(--md-sys-typescale-display-large-font-size);
+    line-height: var(--md-sys-typescale-display-large-line-height);
+    font-weight: var(--md-sys-typescale-display-large-font-weight);
+}
+
+.fp-text-headline-large {
+    font-size: var(--md-sys-typescale-headline-large-font-size);
+    line-height: var(--md-sys-typescale-headline-large-line-height);
+    font-weight: var(--md-sys-typescale-headline-large-font-weight);
+}
+
+.fp-text-headline-medium {
+    font-size: var(--md-sys-typescale-headline-medium-font-size);
+    line-height: var(--md-sys-typescale-headline-medium-line-height);
+    font-weight: var(--md-sys-typescale-headline-medium-font-weight);
+}
+
+.fp-text-headline-small {
+    font-size: var(--md-sys-typescale-headline-small-font-size);
+    line-height: var(--md-sys-typescale-headline-small-line-height);
+    font-weight: var(--md-sys-typescale-headline-small-font-weight);
+}
+
+.fp-text-body-large {
+    font-size: var(--md-sys-typescale-body-large-font-size);
+    line-height: var(--md-sys-typescale-body-large-line-height);
+    font-weight: var(--md-sys-typescale-body-large-font-weight);
+}
+
+.fp-text-body-medium {
+    font-size: var(--md-sys-typescale-body-medium-font-size);
+    line-height: var(--md-sys-typescale-body-medium-line-height);
+    font-weight: var(--md-sys-typescale-body-medium-font-weight);
+}
+
+.fp-text-label-large {
+    font-size: var(--md-sys-typescale-label-large-font-size);
+    line-height: var(--md-sys-typescale-label-large-line-height);
+    font-weight: var(--md-sys-typescale-label-large-font-weight);
+}
+
+/* Financial Data Typography */
+.fp-metric-value {
+    font-size: var(--md-fp-typescale-metric-value-font-size);
+    line-height: var(--md-fp-typescale-metric-value-line-height);
+    font-weight: var(--md-fp-typescale-metric-value-font-weight);
+    color: var(--md-sys-color-on-surface);
+}
+
+.fp-metric-label {
+    font-size: var(--md-fp-typescale-metric-label-font-size);
+    line-height: var(--md-fp-typescale-metric-label-line-height);
+    font-weight: var(--md-fp-typescale-metric-label-font-weight);
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+/* ========================================
+ * RESPONSIVE GRID UTILITIES
+ * ======================================== */
+
+.fp-grid {
+    display: grid;
+    gap: var(--md-sys-spacing-4);
+}
+
+/* Metric Cards Grid: 5 cards responsive layout */
+.fp-metrics-grid {
+    display: grid;
+    gap: var(--md-sys-spacing-4);
+    grid-template-columns: 1fr; /* Mobile: stack vertically */
+}
+
+@media (min-width: 768px) {
+    .fp-metrics-grid {
+        grid-template-columns: repeat(3, 1fr); /* Tablet: 3 cols top, 2 cols bottom */
+        gap: var(--md-sys-spacing-6);
+    }
+
+    /* Make 4th and 5th cards span to center them */
+    .fp-metrics-grid > :nth-child(4),
+    .fp-metrics-grid > :nth-child(5) {
+        grid-column: span 1;
+    }
+}
+
+@media (min-width: 1280px) {
+    .fp-metrics-grid {
+        grid-template-columns: repeat(5, 1fr); /* Desktop: 5 horizontal */
+        gap: var(--md-sys-spacing-6);
+    }
+
+    /* Reset span for desktop */
+    .fp-metrics-grid > :nth-child(4),
+    .fp-metrics-grid > :nth-child(5) {
+        grid-column: span 1;
+    }
+}
+
+/* Charts Grid: Side-by-side on larger screens */
+.fp-charts-grid {
+    display: grid;
+    gap: var(--md-sys-spacing-4);
+    grid-template-columns: 1fr; /* Mobile: stack */
+}
+
+@media (min-width: 768px) {
+    .fp-charts-grid {
+        grid-template-columns: 1fr 1fr; /* Tablet/Desktop: side-by-side */
+        gap: var(--md-sys-spacing-6);
+    }
+}
+
+/* ========================================
+ * ACCESSIBILITY UTILITIES
+ * ======================================== */
+
+.fp-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.fp-focus-visible:focus-visible {
+    outline: var(--md-sys-focus-ring-width) solid var(--md-sys-focus-ring-color);
+    outline-offset: var(--md-sys-focus-ring-offset);
+}
+
+/* ========================================
+ * MODAL/SCRIM UTILITIES
+ * ======================================== */
+
+.fp-scrim {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.32);
+    z-index: 1000;
+    animation: fp-fade-in var(--md-fp-motion-modal-enter) var(--md-sys-motion-easing-emphasized-decelerate);
+}
+
+.fp-scrim.fp-fade-out {
+    animation: fp-fade-out var(--md-fp-motion-modal-exit) var(--md-sys-motion-easing-emphasized-accelerate);
+}
+
+@keyframes fp-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fp-fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* ========================================
+ * TOUCH TARGET OPTIMIZATION
+ * ======================================== */
+
+.fp-touch-target {
+    min-width: var(--md-sys-touch-target-min);
+    min-height: var(--md-sys-touch-target-min);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========================================
+ * LOADING STATES
+ * ======================================== */
+
+.fp-loading {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--md-sys-color-surface-variant);
+    border-top-color: var(--md-sys-color-primary);
+    border-radius: var(--md-sys-shape-corner-full);
+    animation: fp-spin 1.5s linear infinite;
+}
+
+@keyframes fp-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

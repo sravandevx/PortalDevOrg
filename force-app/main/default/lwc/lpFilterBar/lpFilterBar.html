@@ -1,0 +1,59 @@
+<template>
+    <div class="filter-bar" role="region" aria-label="Portfolio filters">
+        <div class="filter-controls">
+            <!-- Investment Vehicle Dropdown -->
+            <div class="filter-group">
+                <label for="vehicle-select" class="filter-label">
+                    Investment Vehicle
+                </label>
+                <lightning-combobox
+                    name="vehicleSelect"
+                    label="Investment Vehicle"
+                    variant="label-hidden"
+                    value={selectedVehicleId}
+                    placeholder="All Investment Vehicles"
+                    options={vehicleOptions}
+                    onchange={handleVehicleChange}
+                    class="filter-dropdown"
+                ></lightning-combobox>
+            </div>
+
+            <!-- Fund Dropdown -->
+            <div class="filter-group">
+                <label for="fund-select" class="filter-label">
+                    Fund
+                </label>
+                <lightning-combobox
+                    name="fundSelect"
+                    label="Fund"
+                    variant="label-hidden"
+                    value={selectedFundId}
+                    placeholder="All Funds"
+                    options={fundOptions}
+                    onchange={handleFundChange}
+                    class="filter-dropdown"
+                ></lightning-combobox>
+            </div>
+
+            <!-- Clear Filters Button (shown when filters are active) -->
+            <template lwc:if={hasActiveFilters}>
+                <button
+                    class="clear-filters-btn fp-touch-target"
+                    onclick={handleClearFilters}
+                    aria-label="Clear all active filters"
+                >
+                    Clear Filters
+                </button>
+            </template>
+        </div>
+
+        <!-- Active Filter Indicators -->
+        <template lwc:if={hasActiveFilters}>
+            <div class="active-filters" role="status" aria-live="polite">
+                <span class="filter-count">
+                    {activeFilterCount} filter{activeFilterCountPlural} active
+                </span>
+            </div>
+        </template>
+    </div>
+</template>
