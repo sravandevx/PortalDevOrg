@@ -106,20 +106,18 @@
 }
 
 .dashboard-container {
-    /* Layout - Figma Specifications */
+    /* Layout */
     display: flex;
     flex-direction: column;
-    height: 960px;
-    padding: 24px;
+    min-height: 100vh;
+    padding: 24px 24px 24px 0;
     align-items: flex-start;
     gap: 8px;
     flex: 1 0 0;
 
-    /* Style - Figma Specifications */
-    border-radius: 16px;
+    /* Style */
     background: linear-gradient(180deg, rgba(248, 248, 248, 0.90) 8%, rgba(245, 242, 240, 0.90) 30.29%);
     box-sizing: border-box;
-    overflow-y: auto;
 }
 
 /* Dashboard Header */

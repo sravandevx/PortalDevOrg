@@ -1,11 +1,11 @@
 /**
- * Verifies the SMS verification code entered by the user
- * On success: sets LP_SMS_Enabled__c and LP_SMS_Verification_Enabled__c to true, clears temp fields
+ * Verifies the email verification code and enables email verification on success.
+ * Clears other method flags to ensure single active method.
  */
-public class LP_VerifySMSCode {
+public class LP_VerifyEmailCode {
 
-    @InvocableMethod(label='Verify SMS Code' description='Verifies the entered SMS code against the stored code')
-    public static List<VerifyResult> verifySMSCode(List<VerifyRequest> requests) {
+    @InvocableMethod(label='Verify Email Code' description='Verifies email code and enables email verification on success')
+    public static List<VerifyResult> verifyEmailCode(List<VerifyRequest> requests) {
         List<VerifyResult> results = new List<VerifyResult>();
 
         if (requests == null || requests.isEmpty()) {
@@ -19,7 +19,6 @@ public class LP_VerifySMSCode {
             User u = [SELECT Id, LP_SMS_Verification_Code__c, LP_SMS_Code_Expiry__c
                       FROM User WHERE Id = :request.userId LIMIT 1];
 
-            // Check if code exists
             if (String.isBlank(u.LP_SMS_Verification_Code__c)) {
                 result.isValid = false;
                 result.message = 'No verification code found. Please go back and request a new code.';
@@ -27,11 +26,9 @@ public class LP_VerifySMSCode {
                 return results;
             }
 
-            // Check if code has expired
             if (u.LP_SMS_Code_Expiry__c != null && u.LP_SMS_Code_Expiry__c < DateTime.now()) {
                 result.isValid = false;
                 result.message = 'Verification code has expired. Please go back and request a new code.';
-                // Clear expired code
                 User clearUser = new User(Id = request.userId);
                 clearUser.LP_SMS_Verification_Code__c = null;
                 clearUser.LP_SMS_Code_Expiry__c = null;
@@ -40,21 +37,19 @@ public class LP_VerifySMSCode {
                 return results;
             }
 
-            // Check if code matches
-            //if (u.LP_SMS_Verification_Code__c == request.enteredCode) { //later uncomment this
-            if (request.enteredCode == '123456') {
+            if (u.LP_SMS_Verification_Code__c == request.enteredCode) {
                 result.isValid = true;
-                result.message = 'Phone number verified successfully!';
+                result.message = 'Email verified successfully!';
 
-                // Clear temp fields, enable SMS, disable other methods
+                // Clear temp fields, enable email, disable other methods
                 User updateUser = new User(Id = request.userId);
                 updateUser.LP_SMS_Verification_Code__c = null;
                 updateUser.LP_SMS_Code_Expiry__c = null;
-                updateUser.LP_SMS_Enabled__c = true;
-                updateUser.LP_SMS_Verification_Enabled__c = true;
-                updateUser.LP_Email_Verification_Enabled__c = false;
+                updateUser.LP_Email_Verification_Enabled__c = true;
+                updateUser.LP_MFA_Enabled__c = true;
+                updateUser.LP_SMS_Verification_Enabled__c = false;
+                updateUser.LP_SMS_Enabled__c = false;
                 updateUser.LP_Authenticator_Verification_Enabled__c = false;
-                updateUser.LP_MFA_Enabled__c = false;
                 update updateUser;
             } else {
                 result.isValid = false;

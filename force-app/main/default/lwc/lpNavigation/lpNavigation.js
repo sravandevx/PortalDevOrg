@@ -6,6 +6,8 @@
  */
 
 import { LightningElement, track } from 'lwc';
+import isGuest from '@salesforce/user/isGuest';
+import basePath from '@salesforce/community/basePath';
 import PORTAL_ICONS from '@salesforce/resourceUrl/PortalIcons';
 import FUNDPANEL_LOGO from '@salesforce/resourceUrl/fundpanel_logo_square';
 
@@ -13,6 +15,10 @@ export default class LpNavigation extends LightningElement {
     @track currentView = 'overview';
     @track isCollapsed = false;
     @track isProfileDropdownOpen = false;
+
+    get isAuthenticated() {
+        return !isGuest;
+    }
 
     // Static resource base URL for icons
     portalIconsBase = PORTAL_ICONS;
@@ -274,8 +280,7 @@ export default class LpNavigation extends LightningElement {
                 // Would navigate to MFA setup page in production
                 break;
             case 'logout':
-                console.log('Logout action triggered');
-                // Would trigger logout in production
+                window.location.href = (basePath || '') + '/secur/logout.jsp';
                 break;
             default:
                 console.log(`Unknown action: ${action}`);

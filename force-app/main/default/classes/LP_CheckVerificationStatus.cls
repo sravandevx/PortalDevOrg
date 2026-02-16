@@ -1,39 +1,44 @@
 /**
  * Controller for Login Flow - checks if user needs to set up verification
- * Uses LP_MFA_Enabled__c and LP_SMS_Enabled__c to determine if setup is needed
+ * Checks all three method flags to determine setup status and routing
  */
 public class LP_CheckVerificationStatus {
 
-    /**
-     * Check if the current user needs to set up a verification method
-     * Called at the start of the login flow
-     */
     @InvocableMethod(label='Check User Verification Status' description='Checks if user has any verification method enabled')
-    public static List<VerificationStatus> checkVerificationStatus(List<Id> userIds) {
+    public static List<VerificationStatus> checkVerificationStatus(List<CheckRequest> requests) {
         List<VerificationStatus> results = new List<VerificationStatus>();
 
-        if (userIds == null || userIds.isEmpty()) {
+        if (requests == null || requests.isEmpty()) {
             return results;
         }
 
-        User currentUser = [SELECT Id, LP_MFA_Enabled__c, LP_SMS_Enabled__c
+        CheckRequest request = requests[0];
+        User currentUser = [SELECT Id, LP_MFA_Enabled__c, LP_SMS_Enabled__c,
+                            LP_Email_Verification_Enabled__c, LP_SMS_Verification_Enabled__c,
+                            LP_Authenticator_Verification_Enabled__c
                             FROM User
-                            WHERE Id = :userIds[0]
+                            WHERE Id = :request.userId
                             LIMIT 1];
 
         VerificationStatus status = new VerificationStatus();
         status.userId = currentUser.Id;
-        status.needsSetup = !currentUser.LP_MFA_Enabled__c && !currentUser.LP_SMS_Enabled__c;
+        status.needsSetup = !currentUser.LP_Email_Verification_Enabled__c
+                         && !currentUser.LP_SMS_Verification_Enabled__c
+                         && !currentUser.LP_Authenticator_Verification_Enabled__c;
         status.hasMfaEnabled = currentUser.LP_MFA_Enabled__c;
-        status.hasSmsEnabled = currentUser.LP_SMS_Enabled__c;
+        status.hasSmsEnabled = currentUser.LP_SMS_Verification_Enabled__c;
+        status.hasEmailEnabled = currentUser.LP_Email_Verification_Enabled__c;
+        status.hasAuthenticatorEnabled = currentUser.LP_Authenticator_Verification_Enabled__c;
 
         results.add(status);
         return results;
     }
 
-    /**
-     * Inner class for verification status response
-     */
+    public class CheckRequest {
+        @InvocableVariable(label='User ID' required=true)
+        public Id userId;
+    }
+
     public class VerificationStatus {
         @InvocableVariable(label='User ID' required=true)
         public Id userId;
@@ -46,5 +51,11 @@ public class LP_CheckVerificationStatus {
 
         @InvocableVariable(label='Has SMS Enabled' required=true)
         public Boolean hasSmsEnabled;
+
+        @InvocableVariable(label='Has Email Enabled' required=true)
+        public Boolean hasEmailEnabled;
+
+        @InvocableVariable(label='Has Authenticator Enabled' required=true)
+        public Boolean hasAuthenticatorEnabled;
     }
 }

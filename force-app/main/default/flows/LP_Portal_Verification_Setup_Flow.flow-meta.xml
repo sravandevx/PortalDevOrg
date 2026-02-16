@@ -2,7 +2,7 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <name>Check_Verification_Status</name>
-        <label>Check If User Needs Verification Setup</label>
+        <label>Check Verification Status</label>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <actionName>LP_CheckVerificationStatus</actionName>
@@ -13,30 +13,217 @@
         <faultConnector>
             <targetReference>Error_Screen</targetReference>
         </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>userIds</name>
+            <name>userId</name>
             <value>
                 <elementReference>$User.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>LP_CheckVerificationStatus</nameSegment>
         <outputParameters>
             <assignToReference>needsSetup</assignToReference>
             <name>needsSetup</name>
         </outputParameters>
+        <outputParameters>
+            <assignToReference>hasMfaEnabled</assignToReference>
+            <name>hasMfaEnabled</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>hasSmsEnabled</assignToReference>
+            <name>hasSmsEnabled</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>hasEmailEnabled</assignToReference>
+            <name>hasEmailEnabled</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>hasAuthenticatorEnabled</assignToReference>
+            <name>hasAuthenticatorEnabled</name>
+        </outputParameters>
     </actionCalls>
     <actionCalls>
-        <name>Set_Verification_Method</name>
-        <label>Set Selected Verification Method</label>
+        <name>Email_Login_Send_Code</name>
+        <label>Send Email Login Code</label>
         <locationX>50</locationX>
-        <locationY>494</locationY>
-        <actionName>LP_SetVerificationMethod</actionName>
+        <locationY>518</locationY>
+        <actionName>LP_SendEmailCode</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Setup_Complete</targetReference>
+            <targetReference>Email_Login_Screen</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error_Screen</targetReference>
         </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_SendEmailCode</nameSegment>
+        <outputParameters>
+            <assignToReference>emailSendSuccess</assignToReference>
+            <name>success</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>emailSendMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Email_Login_Verify_Code</name>
+        <label>Verify Email Login Code</label>
+        <locationX>50</locationX>
+        <locationY>758</locationY>
+        <actionName>LP_VerifyLoginCode</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Email_Login_Code_Valid</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>emailLoginCodeVar</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_VerifyLoginCode</nameSegment>
+        <outputParameters>
+            <assignToReference>loginCodeValid</assignToReference>
+            <name>isValid</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>loginCodeMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Email_Setup_Send_Code</name>
+        <label>Send Email Setup Code</label>
+        <locationX>50</locationX>
+        <locationY>398</locationY>
+        <actionName>LP_SendEmailCode</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Email_Setup_Enter_Code</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_SendEmailCode</nameSegment>
+        <outputParameters>
+            <assignToReference>emailSendSuccess</assignToReference>
+            <name>success</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>emailSendMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Email_Setup_Verify_Code</name>
+        <label>Verify Email Setup Code</label>
+        <locationX>50</locationX>
+        <locationY>638</locationY>
+        <actionName>LP_VerifyEmailCode</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Email_Setup_Code_Valid</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>emailSetupCodeVar</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_VerifyEmailCode</nameSegment>
+        <outputParameters>
+            <assignToReference>isEmailCodeValid</assignToReference>
+            <name>isValid</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>emailCodeMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_SMS_Code</name>
+        <label>Send SMS Verification Code</label>
+        <locationX>314</locationX>
+        <locationY>518</locationY>
+        <actionName>LP_SendSMSCode</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>SMS_Enter_Code</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>phoneNumber</name>
+            <value>
+                <elementReference>phoneNumberVar</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_SendSMSCode</nameSegment>
+        <outputParameters>
+            <assignToReference>sendCodeSuccess</assignToReference>
+            <name>success</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>sendCodeMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Set_Auth_Method</name>
+        <label>Set Authenticator Method</label>
+        <locationX>578</locationX>
+        <locationY>398</locationY>
+        <actionName>LP_SetVerificationMethod</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Auth_Setup_Complete</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>userId</name>
             <value>
@@ -46,26 +233,162 @@
         <inputParameters>
             <name>selectedMethod</name>
             <value>
-                <elementReference>SelectedMethod</elementReference>
+                <stringValue>Authenticator</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>LP_SetVerificationMethod</nameSegment>
         <outputParameters>
             <assignToReference>updateSuccess</assignToReference>
             <name>success</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>enrollmentUrl</assignToReference>
-            <name>enrollmentUrl</name>
         </outputParameters>
         <outputParameters>
             <assignToReference>resultMessage</assignToReference>
             <name>message</name>
         </outputParameters>
     </actionCalls>
+    <actionCalls>
+        <name>SMS_Login_Send_Code</name>
+        <label>Send SMS Login Code</label>
+        <locationX>314</locationX>
+        <locationY>518</locationY>
+        <actionName>LP_SendSMSCode</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>SMS_Login_Screen</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_SendSMSCode</nameSegment>
+        <outputParameters>
+            <assignToReference>loginSendSuccess</assignToReference>
+            <name>success</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>loginSendMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>SMS_Login_Verify_Code</name>
+        <label>Verify SMS Login Code</label>
+        <locationX>314</locationX>
+        <locationY>758</locationY>
+        <actionName>LP_VerifyLoginCode</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>SMS_Login_Code_Valid</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>smsLoginCodeVar</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_VerifyLoginCode</nameSegment>
+        <outputParameters>
+            <assignToReference>loginCodeValid</assignToReference>
+            <name>isValid</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>loginCodeMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Switch_To_MFA</name>
+        <label>Switch to Authenticator</label>
+        <locationX>446</locationX>
+        <locationY>878</locationY>
+        <actionName>LP_SetVerificationMethod</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Switch_MFA_Complete</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>selectedMethod</name>
+            <value>
+                <stringValue>Authenticator</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_SetVerificationMethod</nameSegment>
+        <outputParameters>
+            <assignToReference>switchUpdateSuccess</assignToReference>
+            <name>success</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>switchResultMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Verify_SMS_Code</name>
+        <label>Verify SMS Setup Code</label>
+        <locationX>314</locationX>
+        <locationY>758</locationY>
+        <actionName>LP_VerifySMSCode</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>SMS_Setup_Code_Valid</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>userId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>smsSetupCodeVar</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LP_VerifySMSCode</nameSegment>
+        <outputParameters>
+            <assignToReference>isCodeValid</assignToReference>
+            <name>isValid</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>codeMessage</assignToReference>
+            <name>message</name>
+        </outputParameters>
+    </actionCalls>
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <choices>
         <name>choiceAuthenticator</name>
-        <choiceText>Authenticator App (Recommended - Most Secure)</choiceText>
+        <choiceText>Authenticator App (Most Secure)</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>Authenticator</stringValue>
@@ -88,10 +411,140 @@
         </value>
     </choices>
     <decisions>
-        <name>Needs_Setup_Decision</name>
-        <label>Does User Need Verification Setup?</label>
+        <name>Email_Login_Action</name>
+        <label>Email Login Action</label>
+        <locationX>50</locationX>
+        <locationY>698</locationY>
+        <defaultConnector>
+            <targetReference>Email_Login_Verify_Code</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Verify Code</defaultConnectorLabel>
+        <rules>
+            <name>Switch_To_SMS_From_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>switchToSMSVar</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SMS_Phone_Number</targetReference>
+            </connector>
+            <label>Switch to SMS</label>
+        </rules>
+        <rules>
+            <name>Switch_To_MFA_From_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>switchToMFAFromEmailVar</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Switch_To_MFA</targetReference>
+            </connector>
+            <label>Switch to MFA</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Email_Login_Code_Valid</name>
+        <label>Email Login Code Valid?</label>
+        <locationX>50</locationX>
+        <locationY>878</locationY>
+        <defaultConnector>
+            <targetReference>Email_Login_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Invalid Code</defaultConnectorLabel>
+        <rules>
+            <name>Email_Login_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loginCodeValid</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Valid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Email_Setup_Code_Valid</name>
+        <label>Email Setup Code Valid?</label>
+        <locationX>50</locationX>
+        <locationY>758</locationY>
+        <defaultConnector>
+            <targetReference>Email_Setup_Enter_Code</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Invalid Code</defaultConnectorLabel>
+        <rules>
+            <name>Email_Setup_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isEmailCodeValid</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Email_Setup_Complete</targetReference>
+            </connector>
+            <label>Valid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Method_Decision</name>
+        <label>Which Method Selected?</label>
         <locationX>176</locationX>
-        <locationY>254</locationY>
+        <locationY>338</locationY>
+        <defaultConnector>
+            <targetReference>Set_Auth_Method</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Authenticator</defaultConnectorLabel>
+        <rules>
+            <name>Email_Selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedMethodVar</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>choiceEmail</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Email_Setup_Send_Code</targetReference>
+            </connector>
+            <label>Email Selected</label>
+        </rules>
+        <rules>
+            <name>SMS_Selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedMethodVar</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>choiceSMS</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SMS_Phone_Number</targetReference>
+            </connector>
+            <label>SMS Selected</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Needs_Setup_Decision</name>
+        <label>Needs Setup?</label>
+        <locationX>176</locationX>
+        <locationY>218</locationY>
+        <defaultConnector>
+            <targetReference>Route_By_Method</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Already Set Up</defaultConnectorLabel>
         <rules>
             <name>Needs_Setup</name>
@@ -109,93 +562,861 @@
             <label>Needs Setup</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Route_By_Method</name>
+        <label>Route By Current Method</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>Select_Verification_Method</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Method (Safety Net)</defaultConnectorLabel>
+        <rules>
+            <name>Has_Email_Enabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>hasEmailEnabled</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Email_Login_Send_Code</targetReference>
+            </connector>
+            <label>Email Enabled</label>
+        </rules>
+        <rules>
+            <name>Has_SMS_Enabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>hasSmsEnabled</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SMS_Login_Send_Code</targetReference>
+            </connector>
+            <label>SMS Enabled</label>
+        </rules>
+        <rules>
+            <name>Has_Authenticator_Enabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>hasAuthenticatorEnabled</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Authenticator Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>SMS_Login_Code_Valid</name>
+        <label>SMS Login Code Valid?</label>
+        <locationX>314</locationX>
+        <locationY>878</locationY>
+        <defaultConnector>
+            <targetReference>SMS_Login_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Invalid Code</defaultConnectorLabel>
+        <rules>
+            <name>SMS_Login_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loginCodeValid</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SMS_Post_Verify</targetReference>
+            </connector>
+            <label>Valid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>SMS_Post_Verify</name>
+        <label>Switch to MFA?</label>
+        <locationX>314</locationX>
+        <locationY>998</locationY>
+        <defaultConnectorLabel>Continue Login</defaultConnectorLabel>
+        <rules>
+            <name>SMS_Switch_To_MFA</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>switchToMFAVar</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Switch_To_MFA</targetReference>
+            </connector>
+            <label>Switch to MFA</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>SMS_Setup_Code_Valid</name>
+        <label>SMS Setup Code Valid?</label>
+        <locationX>314</locationX>
+        <locationY>878</locationY>
+        <defaultConnector>
+            <targetReference>SMS_Enter_Code</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Invalid Code</defaultConnectorLabel>
+        <rules>
+            <name>SMS_Setup_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isCodeValid</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SMS_Setup_Complete</targetReference>
+            </connector>
+            <label>Valid</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <interviewLabel>LP Portal Verification Setup {!$Flow.CurrentDateTime}</interviewLabel>
     <label>LP Portal Verification Setup Flow</label>
     <processType>Flow</processType>
     <screens>
-        <name>Select_Verification_Method</name>
-        <label>Select Verification Method</label>
-        <locationX>50</locationX>
-        <locationY>374</locationY>
+        <name>Auth_Setup_Complete</name>
+        <label>Authenticator Setup Complete</label>
+        <locationX>578</locationX>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Set_Verification_Method</targetReference>
-        </connector>
         <fields>
-            <name>WelcomeText</name>
-            <fieldText>&lt;p style=&quot;font-size: 20px; font-weight: bold; color: #032D60;&quot;&gt;Secure Your Account&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 14px;&quot;&gt;To protect your account, please select a verification method below. This will be used to verify your identity each time you log in.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <name>AuthSetupCompleteText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Authenticator App Verification Enabled&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Authenticator App verification has been enabled for your account.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;On your next login, you may be prompted to set up your Authenticator App (such as Google Authenticator or Salesforce Authenticator).&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;If you are not prompted, please contact your administrator to complete the setup.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
-        <fields>
-            <name>SelectedMethod</name>
-            <choiceReferences>choiceAuthenticator</choiceReferences>
-            <choiceReferences>choiceEmail</choiceReferences>
-            <choiceReferences>choiceSMS</choiceReferences>
-            <dataType>String</dataType>
-            <defaultValue>
-                <stringValue>Authenticator</stringValue>
-            </defaultValue>
-            <fieldText>Choose your preferred verification method</fieldText>
-            <fieldType>RadioButtons</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>MethodDescriptions</name>
-            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 13px; color: #444;&quot;&gt;&lt;b&gt;Authenticator App&lt;/b&gt; - Use an app like Google Authenticator or Salesforce Authenticator to generate time-based codes. This is the most secure option.&lt;/p&gt;&lt;p style=&quot;font-size: 13px; color: #444;&quot;&gt;&lt;b&gt;Email Verification&lt;/b&gt; - Receive a one-time verification code to your registered email address.&lt;/p&gt;&lt;p style=&quot;font-size: 13px; color: #444;&quot;&gt;&lt;b&gt;SMS Verification&lt;/b&gt; - Receive a one-time verification code via text message to your mobile phone.&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <nextOrFinishButtonLabel>Continue</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Setup_Complete</name>
-        <label>Verification Method Selected</label>
+        <name>Email_Login_Screen</name>
+        <label>Email Verification</label>
         <locationX>50</locationX>
-        <locationY>614</locationY>
+        <locationY>638</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Email_Login_Action</targetReference>
+        </connector>
+        <fields>
+            <name>EmailLoginInfoText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Identity Verification&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!emailSendMessage}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Enter the 6-digit verification code to continue to your portal.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>EmailLoginErrorText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(194, 57, 52);&quot;&gt;{!loginCodeMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>loginCodeValid</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>EmailLoginCodeInput</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>emailLoginCodeVar</elementReference>
+            </defaultValue>
+            <fieldText>Verification Code</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <validationRule>
+                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
+                <formulaExpression>OR(ISBLANK({!emailLoginCodeVar}), REGEX({!emailLoginCodeVar}, &quot;[0-9]{6}&quot;))</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>EmailLoginDivider</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(112, 110, 107);&quot;&gt;Want to use a different verification method? Select an option below instead of entering a code.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>SwitchToSMS</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>switchToSMSVar</elementReference>
+            </defaultValue>
+            <fieldText>Switch to SMS Verification</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>SwitchToMFAFromEmail</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>switchToMFAFromEmailVar</elementReference>
+            </defaultValue>
+            <fieldText>Switch to Authenticator App (MFA)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Email_Setup_Complete</name>
+        <label>Email Verification Enabled</label>
+        <locationX>50</locationX>
+        <locationY>878</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>CompletionText</name>
-            <fieldText>&lt;p style=&quot;font-size: 20px; font-weight: bold; color: #032D60;&quot;&gt;Verification Method Selected&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 14px;&quot;&gt;Your account has been configured for &lt;b&gt;{!SelectedMethod}&lt;/b&gt; verification.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 14px; font-weight: bold;&quot;&gt;What happens next:&lt;/p&gt;&lt;p style=&quot;font-size: 14px;&quot;&gt;1. Click &amp;quot;Finish&amp;quot; to proceed to your portal&lt;/p&gt;&lt;p style=&quot;font-size: 14px;&quot;&gt;2. On your next login, you will be prompted to complete verification enrollment&lt;/p&gt;&lt;p style=&quot;font-size: 14px;&quot;&gt;3. Follow the on-screen instructions to finish setup&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 14px; color: #2E844A; font-weight: bold;&quot;&gt;Your account security has been enhanced!&lt;/p&gt;</fieldText>
+            <name>EmailSetupCompleteText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Email Verification Enabled!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Your email has been verified and email verification is now enabled for your account.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;From now on, you will receive a verification code via email each time you log in.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;You can switch to SMS or Authenticator App verification at any time during login.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
-        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Email_Setup_Enter_Code</name>
+        <label>Verify Your Email</label>
+        <locationX>50</locationX>
+        <locationY>518</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Email_Setup_Verify_Code</targetReference>
+        </connector>
+        <fields>
+            <name>EmailSetupInfoText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Verify Your Email Address&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!emailSendMessage}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Enter the 6-digit code below to verify your email.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>EmailSetupErrorText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(194, 57, 52);&quot;&gt;{!emailCodeMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>isEmailCodeValid</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>EmailSetupCodeInput</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>emailSetupCodeVar</elementReference>
+            </defaultValue>
+            <fieldText>Verification Code</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <validationRule>
+                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
+                <formulaExpression>REGEX({!emailSetupCodeVar}, &quot;[0-9]{6}&quot;)</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>EmailSetupHelpText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(112, 110, 107);&quot;&gt;The code expires in 10 minutes. If you did not receive the code, go back and try again.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
         <name>Error_Screen</name>
         <label>Error</label>
-        <locationX>400</locationX>
-        <locationY>374</locationY>
+        <locationX>842</locationX>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
             <name>ErrorText</name>
-            <fieldText>&lt;p style=&quot;font-size: 16px; font-weight: bold; color: #C23934;&quot;&gt;Something went wrong&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 14px;&quot;&gt;An error occurred while setting up your verification method. Please try logging in again or contact your administrator for assistance.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 12px; color: #706E6B;&quot;&gt;Error details: {!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Something went wrong&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;An error occurred during the verification process. Please try logging in again.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(112, 110, 107);&quot;&gt;Error: {!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
-        <nextOrFinishButtonLabel>Continue</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Select_Verification_Method</name>
+        <label>Secure Your Account</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Method_Decision</targetReference>
+        </connector>
+        <fields>
+            <name>SelectMethodInfoText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Set Up Account Verification&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;To protect your account, please select a verification method. You will use this method to verify your identity each time you log in.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>SelectedMethod</name>
+            <choiceReferences>choiceEmail</choiceReferences>
+            <choiceReferences>choiceSMS</choiceReferences>
+            <choiceReferences>choiceAuthenticator</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>selectedMethodVar</elementReference>
+            </defaultValue>
+            <fieldText>Choose Verification Method</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>SMS_Enter_Code</name>
+        <label>Verify Your Phone</label>
+        <locationX>314</locationX>
+        <locationY>638</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Verify_SMS_Code</targetReference>
+        </connector>
+        <fields>
+            <name>SMSSetupInfoText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Verify Your Phone Number&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!sendCodeMessage}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Enter the 6-digit code below to verify your phone number.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>SMSSetupErrorText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(194, 57, 52);&quot;&gt;{!codeMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>isCodeValid</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>SMSSetupCodeInput</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>smsSetupCodeVar</elementReference>
+            </defaultValue>
+            <fieldText>Verification Code</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <validationRule>
+                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
+                <formulaExpression>REGEX({!smsSetupCodeVar}, &quot;[0-9]{6}&quot;)</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>SMSSetupHelpText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(112, 110, 107);&quot;&gt;The code expires in 10 minutes. If you did not receive the code, go back and try again.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>SMS_Login_Screen</name>
+        <label>SMS Verification</label>
+        <locationX>314</locationX>
+        <locationY>638</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>SMS_Login_Verify_Code</targetReference>
+        </connector>
+        <fields>
+            <name>SMSLoginInfoText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Identity Verification&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!loginSendMessage}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Enter the 6-digit verification code to continue to your portal.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>SMSLoginErrorText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(194, 57, 52);&quot;&gt;{!loginCodeMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>loginCodeValid</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>SMSLoginCodeInput</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>smsLoginCodeVar</elementReference>
+            </defaultValue>
+            <fieldText>Verification Code</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <validationRule>
+                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
+                <formulaExpression>REGEX({!smsLoginCodeVar}, &quot;[0-9]{6}&quot;)</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>SMSLoginDivider</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(112, 110, 107);&quot;&gt;Want to use Authenticator App instead? Check the box below and verify your SMS code to switch.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>SwitchToMFA</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>switchToMFAVar</elementReference>
+            </defaultValue>
+            <fieldText>Switch to Authenticator App (MFA)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>SMS_Phone_Number</name>
+        <label>Enter Phone Number</label>
+        <locationX>314</locationX>
+        <locationY>398</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Send_SMS_Code</targetReference>
+        </connector>
+        <fields>
+            <name>SMSPhoneInfoText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Set Up SMS Verification&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Enter your mobile phone number below. We will send a verification code to this number.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>PhoneNumberInput</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>phoneNumberVar</elementReference>
+            </defaultValue>
+            <fieldText>Mobile Phone Number</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <validationRule>
+                <errorMessage>Please enter a valid phone number (minimum 10 digits).</errorMessage>
+                <formulaExpression>REGEX({!phoneNumberVar}, &quot;[0-9+\\-\\(\\)\\s]{10,}&quot;)</formulaExpression>
+            </validationRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>SMS_Setup_Complete</name>
+        <label>SMS Verification Enabled</label>
+        <locationX>314</locationX>
+        <locationY>998</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>SMSSetupCompleteText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;SMS Verification Enabled!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Your phone number has been verified and SMS verification is now enabled for your account.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;From now on, you will receive a verification code via SMS each time you log in.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;You can switch to Authenticator App verification at any time during login.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Switch_MFA_Complete</name>
+        <label>Authenticator Enabled</label>
+        <locationX>446</locationX>
+        <locationY>998</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>SwitchMFACompleteText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Switched to Authenticator App!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Your verification method has been changed to Authenticator App.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;On your next login, you may be prompted to set up your Authenticator App (such as Google Authenticator or Salesforce Authenticator).&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;If you are not prompted, please contact your administrator to complete the setup.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>176</locationX>
+        <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Verification_Status</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
-        <name>enrollmentUrl</name>
+        <name>codeMessage</name>
         <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>emailCodeMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>emailLoginCodeVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>emailSendMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>emailSendSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>emailSetupCodeVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>hasAuthenticatorEnabled</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>hasEmailEnabled</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>hasMfaEnabled</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>hasSmsEnabled</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>isCodeValid</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>isEmailCodeValid</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>loginCodeMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>loginCodeValid</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>loginSendMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>loginSendSuccess</name>
+        <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
@@ -208,8 +1429,97 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>phoneNumberVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>resultMessage</name>
         <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>selectedMethodVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>Email</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>sendCodeMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>sendCodeSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>smsLoginCodeVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>smsSetupCodeVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>switchResultMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>switchToMFAFromEmailVar</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>switchToMFAVar</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>switchToSMSVar</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>switchUpdateSuccess</name>
+        <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>

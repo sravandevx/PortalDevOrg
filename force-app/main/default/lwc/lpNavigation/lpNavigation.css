@@ -415,7 +415,9 @@
     margin-left: calc(var(--nav-sidebar-width-expanded) + 32px);
     flex: 1;
     min-width: 0;
+    min-height: 100vh;
     transition: margin-left var(--nav-transition-duration) var(--nav-transition-easing);
+    overflow-x: hidden;
 }
 
 .sidebar.collapsed ~ .main-content,
