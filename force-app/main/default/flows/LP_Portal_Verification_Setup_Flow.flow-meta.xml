@@ -21,6 +21,7 @@
             </value>
         </inputParameters>
         <nameSegment>LP_CheckVerificationStatus</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>needsSetup</assignToReference>
             <name>needsSetup</name>
@@ -63,6 +64,7 @@
             </value>
         </inputParameters>
         <nameSegment>LP_SendEmailCode</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>emailSendSuccess</assignToReference>
             <name>success</name>
@@ -87,18 +89,19 @@
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>EmailLoginCodeInput</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>userId</name>
             <value>
                 <elementReference>$User.Id</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>enteredCode</name>
-            <value>
-                <elementReference>emailLoginCodeVar</elementReference>
-            </value>
-        </inputParameters>
         <nameSegment>LP_VerifyLoginCode</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>loginCodeValid</assignToReference>
             <name>isValid</name>
@@ -129,6 +132,7 @@
             </value>
         </inputParameters>
         <nameSegment>LP_SendEmailCode</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>emailSendSuccess</assignToReference>
             <name>success</name>
@@ -153,18 +157,19 @@
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>EmailSetupCodeInput</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>userId</name>
             <value>
                 <elementReference>$User.Id</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>enteredCode</name>
-            <value>
-                <elementReference>emailSetupCodeVar</elementReference>
-            </value>
-        </inputParameters>
         <nameSegment>LP_VerifyEmailCode</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>isEmailCodeValid</assignToReference>
             <name>isValid</name>
@@ -201,6 +206,7 @@
             </value>
         </inputParameters>
         <nameSegment>LP_SendSMSCode</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>sendCodeSuccess</assignToReference>
             <name>success</name>
@@ -237,6 +243,7 @@
             </value>
         </inputParameters>
         <nameSegment>LP_SetVerificationMethod</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>updateSuccess</assignToReference>
             <name>success</name>
@@ -261,19 +268,26 @@
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
+            <name>phoneNumber</name>
+            <value>
+                <elementReference>PhoneNumberInput</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>userId</name>
             <value>
                 <elementReference>$User.Id</elementReference>
             </value>
         </inputParameters>
         <nameSegment>LP_SendSMSCode</nameSegment>
-        <outputParameters>
-            <assignToReference>loginSendSuccess</assignToReference>
-            <name>success</name>
-        </outputParameters>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>loginSendMessage</assignToReference>
             <name>message</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>loginSendSuccess</assignToReference>
+            <name>success</name>
         </outputParameters>
     </actionCalls>
     <actionCalls>
@@ -291,18 +305,19 @@
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>SMSLoginCodeInput</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>userId</name>
             <value>
                 <elementReference>$User.Id</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>enteredCode</name>
-            <value>
-                <elementReference>smsLoginCodeVar</elementReference>
-            </value>
-        </inputParameters>
         <nameSegment>LP_VerifyLoginCode</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>loginCodeValid</assignToReference>
             <name>isValid</name>
@@ -339,6 +354,7 @@
             </value>
         </inputParameters>
         <nameSegment>LP_SetVerificationMethod</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>switchUpdateSuccess</assignToReference>
             <name>success</name>
@@ -363,18 +379,19 @@
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
+            <name>enteredCode</name>
+            <value>
+                <elementReference>SMSLoginCodeInput</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>userId</name>
             <value>
                 <elementReference>$User.Id</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>enteredCode</name>
-            <value>
-                <elementReference>smsSetupCodeVar</elementReference>
-            </value>
-        </inputParameters>
         <nameSegment>LP_VerifySMSCode</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>isCodeValid</assignToReference>
             <name>isValid</name>
@@ -689,6 +706,18 @@
     <environments>Default</environments>
     <interviewLabel>LP Portal Verification Setup {!$Flow.CurrentDateTime}</interviewLabel>
     <label>LP Portal Verification Setup Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
     <processType>Flow</processType>
     <screens>
         <name>Auth_Setup_Complete</name>
@@ -750,16 +779,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>loginCodeValid</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>false</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
         </fields>
         <fields>
             <name>EmailLoginCodeInput</name>
@@ -769,6 +788,7 @@
             </defaultValue>
             <fieldText>Verification Code</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -778,10 +798,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <validationRule>
-                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
-                <formulaExpression>OR(ISBLANK({!emailLoginCodeVar}), REGEX({!emailLoginCodeVar}, &quot;[0-9]{6}&quot;))</formulaExpression>
-            </validationRule>
         </fields>
         <fields>
             <name>EmailLoginDivider</name>
@@ -804,6 +820,7 @@
             </defaultValue>
             <fieldText>Switch to SMS Verification</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -822,6 +839,7 @@
             </defaultValue>
             <fieldText>Switch to Authenticator App (MFA)</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -895,16 +913,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>isEmailCodeValid</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>false</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
         </fields>
         <fields>
             <name>EmailSetupCodeInput</name>
@@ -914,6 +922,7 @@
             </defaultValue>
             <fieldText>Verification Code</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -923,10 +932,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <validationRule>
-                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
-                <formulaExpression>REGEX({!emailSetupCodeVar}, &quot;[0-9]{6}&quot;)</formulaExpression>
-            </validationRule>
         </fields>
         <fields>
             <name>EmailSetupHelpText</name>
@@ -1003,6 +1008,7 @@
             </defaultValue>
             <fieldText>Choose Verification Method</fieldText>
             <fieldType>RadioButtons</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -1052,16 +1058,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>isCodeValid</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>false</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
         </fields>
         <fields>
             <name>SMSSetupCodeInput</name>
@@ -1071,6 +1067,7 @@
             </defaultValue>
             <fieldText>Verification Code</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -1080,10 +1077,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <validationRule>
-                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
-                <formulaExpression>REGEX({!smsSetupCodeVar}, &quot;[0-9]{6}&quot;)</formulaExpression>
-            </validationRule>
         </fields>
         <fields>
             <name>SMSSetupHelpText</name>
@@ -1137,16 +1130,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>loginCodeValid</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>false</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
         </fields>
         <fields>
             <name>SMSLoginCodeInput</name>
@@ -1156,6 +1139,7 @@
             </defaultValue>
             <fieldText>Verification Code</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -1165,10 +1149,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <validationRule>
-                <errorMessage>Please enter a valid 6-digit code.</errorMessage>
-                <formulaExpression>REGEX({!smsLoginCodeVar}, &quot;[0-9]{6}&quot;)</formulaExpression>
-            </validationRule>
         </fields>
         <fields>
             <name>SMSLoginDivider</name>
@@ -1191,6 +1171,7 @@
             </defaultValue>
             <fieldText>Switch to Authenticator App (MFA)</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -1236,6 +1217,7 @@
             </defaultValue>
             <fieldText>Mobile Phone Number</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -1245,10 +1227,6 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
-            <validationRule>
-                <errorMessage>Please enter a valid phone number (minimum 10 digits).</errorMessage>
-                <formulaExpression>REGEX({!phoneNumberVar}, &quot;[0-9+\\-\\(\\)\\s]{10,}&quot;)</formulaExpression>
-            </validationRule>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -1308,7 +1286,7 @@
             <targetReference>Check_Verification_Status</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>codeMessage</name>
         <dataType>String</dataType>
