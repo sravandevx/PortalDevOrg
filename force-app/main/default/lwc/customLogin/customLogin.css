@@ -232,3 +232,22 @@
     margin-top: 10px;
     text-align: center;
 }
+
+.mfa-info-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(234, 105, 44, 0.15);
+    border: 1px solid rgba(234, 105, 44, 0.3);
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: #EA692C;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.mfa-info-banner svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}

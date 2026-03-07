@@ -1,5 +1,6 @@
 <template>
     <template lwc:if={isAuthenticated}>
+    <c-lp-mfa-gate>
     <div class={portalContainerClass}>
         <!-- Left Sidebar Navigation -->
         <aside class={sidebarClass}>
@@ -115,5 +116,6 @@
             </template>
         </main>
     </div>
+    </c-lp-mfa-gate>
     </template>
 </template>

@@ -1,0 +1,76 @@
+<template>
+    <!-- Loading: show spinner while checking -->
+    <template lwc:if={isChecking}>
+        <div class="gate-loading">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- MFA enrollment required: branded interstitial -->
+    <template lwc:if={requiresEnrollment}>
+        <div class="gate-overlay">
+            <div class="gate-card">
+                <div class="gate-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h2 class="gate-title">Security Setup Required</h2>
+                <p class="gate-message">
+                    Your account requires multi-factor authentication (MFA) to be set up
+                    before you can access the portal.
+                </p>
+                <p class="gate-detail">
+                    You will be redirected to log in, where you will be guided through
+                    setting up your authenticator app.
+                </p>
+                <button class="gate-btn" onclick={handleContinueToSetup} disabled={isRedirecting}>
+                    <template lwc:if={isRedirecting}>
+                        Redirecting...
+                    </template>
+                    <template lwc:else>
+                        Continue to Setup
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </template>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Loop detected: show help message -->
+    <template lwc:if={isLoopDetected}>
+        <div class="gate-overlay">
+            <div class="gate-card">
+                <div class="gate-icon gate-icon-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h2 class="gate-title">MFA Setup Issue</h2>
+                <p class="gate-message">
+                    We're having trouble completing your MFA enrollment.
+                    Please contact your administrator for assistance.
+                </p>
+            </div>
+        </div>
+    </template>
+
+    <!-- All clear: render page content -->
+    <template lwc:if={showContent}>
+        <slot></slot>
+    </template>
+</template>

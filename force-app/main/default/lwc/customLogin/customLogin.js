@@ -12,6 +12,15 @@ export default class CustomLogin extends NavigationMixin(LightningElement) {
     @track password = '';
     @track errorMessage = '';
     @track isLoading = false;
+    @track mfaSetupMessage = '';
+
+    connectedCallback() {
+        const fullUrl = window.location.href;
+        // Check for mfa=setup in the URL or inside the startURL parameter
+        if (fullUrl.includes('mfa=setup') || fullUrl.includes('mfa%3Dsetup')) {
+            this.mfaSetupMessage = 'Please log in to complete your MFA setup. You will be guided through setting up your authenticator app.';
+        }
+    }
 
     handleUsernameChange(event) {
         this.username = event.target.value;
